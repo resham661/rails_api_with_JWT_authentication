@@ -36,13 +36,7 @@ class UsersController < ApplicationController
 
   # DELETE /users/{username}
   def destroy
-    
-    if @user.destroy
-      render json: {data: "Product deleted successfully"}, status: :'no_content'
-    else
-      render json: { errors: @user.errors.full_messages },
-      status: :unprocessable_entity 
-    end
+    @user.destroy
   end
 
 
