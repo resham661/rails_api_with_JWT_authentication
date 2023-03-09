@@ -26,7 +26,9 @@ class UsersController < ApplicationController
 
   # PUT /users/{username}
   def update
-    unless @user.update(user_params)
+    if @user.update(user_params)
+      render json: @user, status: 200
+    else
       render json: { errors: @user.errors.full_messages },
              status: :unprocessable_entity
     end
@@ -34,8 +36,15 @@ class UsersController < ApplicationController
 
   # DELETE /users/{username}
   def destroy
-    @user.destroy
+    
+    if @user.destroy
+      render json: {data: "Product deleted successfully"}, status: :'no_content'
+    else
+      render json: { errors: @user.errors.full_messages },
+      status: :unprocessable_entity 
+    end
   end
+
 
   private
 
@@ -47,7 +56,7 @@ class UsersController < ApplicationController
 
   def user_params
     params.permit(
-      :avatar, :name, :username, :email, :password, :password_confirmation
+      :name, :username, :email, :password, :password_confirmation
     )
   end
 end
